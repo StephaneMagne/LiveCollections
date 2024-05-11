@@ -206,9 +206,11 @@ public final class CollectionData<ItemType: UniquelyIdentifiable>: CollectionDat
         return self
     }
 
-    private func updateDataOnly(_ rawData: [DataType.RawType], completion: (() -> Void)?) {
-        self.items = self.dataFactory.buildUniquelyIdentifiableData(rawData)
-        completion?()
+    public func updateDataOnly(_ rawData: [DataType.RawType], completion: (() -> Void)?) {
+        calculationQueue.async {
+            self.items = self.dataFactory.buildUniquelyIdentifiableData(rawData)
+            completion?()
+        }
     }
     
     private func updateAndAnimate(_ rawData: [DataType.RawType], completion: (() -> Void)?) {

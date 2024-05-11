@@ -137,6 +137,13 @@ public final class CollectionSectionData<SectionType: UniquelyIdentifiableSectio
         }
     }
     
+    public func updateDataOnly(_ updatedData: [SectionType], completion: (() -> Void)?) {
+        calculationQueue.async {
+            self.sections = updatedData
+            completion?()
+        }
+    }
+
     public func append(_ appendedItems: [SectionType], completion: (() -> Void)? = nil) {
         calculatingSections = appendedItems
         calculationQueue.async {
