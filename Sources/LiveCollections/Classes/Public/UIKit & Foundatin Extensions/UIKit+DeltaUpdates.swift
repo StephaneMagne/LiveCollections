@@ -182,14 +182,13 @@ extension UICollectionView: DeltaUpdatableView {
                 return
             }
 
-//            let hasReloads = filteredUpdates.contains(where: { $0.sectionUpdate.delta.reloads.isEmpty == false })
-//
-//            if hasReloads {
+            let hasReloads = filteredUpdates.contains(where: { $0.sectionUpdate.delta.reloads.isEmpty == false })
+
+            if hasReloads {
                 strongSelf.performBatchUpdates(.reload, delegates: collectionViewUpdates.uniqueAnimationDelegates, { [weak weakSelf = strongSelf] in
                     guard let strongSelf = weakSelf else { return }
                     for update in filteredUpdates {
                         let delta = update.indexPathsToAnimate
-                        update.sectionUpdate.update()
                         strongSelf.reloadItems(at: delta.automaticReloadIndexPaths)
                     }
                 }, completion: { _ in
@@ -197,11 +196,11 @@ extension UICollectionView: DeltaUpdatableView {
                         collectionViewUpdates.forEach { $0.sectionUpdate.completion?() }
                     }
                 })
-//            } else {
-//                collectionViewUpdates.manualReload(view: strongSelf) {
-//                    collectionViewUpdates.forEach { $0.sectionUpdate.completion?() }
-//                }
-//            }
+            } else {
+                collectionViewUpdates.manualReload(view: strongSelf) {
+                    collectionViewUpdates.forEach { $0.sectionUpdate.completion?() }
+                }
+            }
         })
     }
     
