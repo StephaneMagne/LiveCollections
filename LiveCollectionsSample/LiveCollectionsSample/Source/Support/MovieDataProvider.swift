@@ -28,7 +28,7 @@ enum MovieProviderPlaybackRate: String {
         switch self {
         case .slow: return 4.0
         case .fast: return 1.0
-        case .ludicrous: return 0.05
+        case .ludicrous: return 0.0000001
         }
     }
 }

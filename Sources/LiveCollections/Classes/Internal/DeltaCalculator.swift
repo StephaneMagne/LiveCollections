@@ -158,7 +158,8 @@ enum DeltaOperationAction {
 }
 
 struct DeltaOperation<DataType> {
-    
+
+    let id: Int = nextID()
     private let data: [DataType]
     private let action: DeltaOperationAction
     private let calculation: DeltaOperationCalculation<DataType>
@@ -170,7 +171,7 @@ struct DeltaOperation<DataType> {
     }
     
     func buildBlockOperation() -> BlockOperation {
-        return BlockOperation {
+        return BlockOperation() {
            self.calculation(self.data)
         }
     }
@@ -196,6 +197,7 @@ final class DataCalculatorQueue<DataType> {
     private let dataQueue = DispatchQueue(label: "\(DataCalculatorQueue.self) dispatch queue")
     
     func setNext(_ operation: DeltaOperation<DataType>) {
+        print("LiveCollections -> Setting operation: \(operation.id)")
         dataQueue.async {
             // merge intermediate updates
             if let nextOperation = self._nextOperation {
@@ -210,6 +212,11 @@ final class DataCalculatorQueue<DataType> {
         return dataQueue.sync {
             defer {
                 _nextOperation = nil
+            }
+            if let _nextOperation {
+                print("LiveCollections -> popping: \(_nextOperation.id)")
+            } else {
+                print("LiveCollections -> popping nil")
             }
             return _nextOperation?.buildBlockOperation()
         }
@@ -236,4 +243,8 @@ private extension Dictionary where Value == Int {
     }
 }
 
-
+var idCount = 0
+func nextID() -> Int {
+    defer { idCount += 1 }
+    return idCount
+}
