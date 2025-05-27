@@ -484,10 +484,13 @@ extension UICollectionView {
     func performBatchUpdates(_ group: CollectionDataAnimationGroup, delegates: [CollectionDataAnimationDelegate], _ updates: () -> Void, completion: ((Bool) -> Void)? = nil) {
         delegates.forEach { $0.animateAlongsideUpdate(for: .immediatelyBefore(group: group, duration: TimeInterval.standardCollectionAnimationDuration)) }
 
+        print("LiveCollections -> performing batch updates")
         performBatchUpdates {
+            print("LiveCollections -> updates()")
             updates()
             delegates.forEach { $0.animateAlongsideUpdate(for: .during(group: group, duration: TimeInterval.standardCollectionAnimationDuration)) }
         } completion: { value in
+            print("LiveCollections -> completion?()")
             completion?(value)
             delegates.forEach  { $0.animateAlongsideUpdate(for: .completed(group: group)) }
         }
