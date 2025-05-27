@@ -182,17 +182,22 @@ extension UICollectionView: DeltaUpdatableView {
                 return
             }
             
-            strongSelf.performBatchUpdates(.reload, delegates: collectionViewUpdates.uniqueAnimationDelegates, { [weak weakSelf = strongSelf] in
-                guard let strongSelf = weakSelf else { return }
-                for update in filteredUpdates {
-                    let delta = update.indexPathsToAnimate
-                    strongSelf.reloadItems(at: delta.automaticReloadIndexPaths)
-                }
-            }, completion: { _ in
-                collectionViewUpdates.manualReload(view: strongSelf) {
-                    collectionViewUpdates.forEach { $0.sectionUpdate.completion?() }
-                }
-            })
+//            strongSelf.performBatchUpdates(.reload, delegates: collectionViewUpdates.uniqueAnimationDelegates, { [weak weakSelf = strongSelf] in
+//                guard let strongSelf = weakSelf else { return }
+//                for update in filteredUpdates {
+//                    let delta = update.indexPathsToAnimate
+//                    strongSelf.reloadItems(at: delta.automaticReloadIndexPaths)
+//                }
+//            }, completion: { _ in
+//                collectionViewUpdates.manualReload(view: strongSelf) {
+//                    collectionViewUpdates.forEach { $0.sectionUpdate.completion?() }
+//                }
+//            })
+
+            collectionViewUpdates.manualReload(view: strongSelf) {
+                collectionViewUpdates.forEach { $0.sectionUpdate.completion?() }
+            }
+            
         })
     }
     
