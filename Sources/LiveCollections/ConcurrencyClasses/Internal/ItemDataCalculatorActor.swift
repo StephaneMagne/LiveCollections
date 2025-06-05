@@ -6,31 +6,35 @@
 //  Copyright © 2025 Scribd. All rights reserved.
 //
 
-final actor ItemDataCalculatorActor<Item: UniquelyIdentifiable> {
+final actor ItemDataProcessor<Item: UniquelyIdentifiable> {
 
-    private let itemProcessingQueue = ItemProcessingQueue<Item>()
+    private let queue = ItemQueue<Item>()
 
-    func update(_ updatedItems: [Item],
-                animated: Bool,
-                itemProvider: some ItemDataActorProvider<Item>,
-                viewProvider: ItemViewProvider,
-                completion: (() -> Void)?) async {
-        if let (itemsToProcess, animateItems, itemCompletion) = await itemProcessingQueue.processNext(updatedItems, animated: animated, completion: completion) {
-            await processItems(itemsToProcess,
-                               animated: animateItems,
-                               itemProvider: itemProvider,
-                               viewProvider: viewProvider,
-                               completion: itemCompletion)
+    private let calculator = ItemDataCalculatorActor<Item>()
+
+    func enqueueUpdate(_ updatedItems: [Item],
+                       animated: Bool,
+                       itemProvider: some ItemDataActorProvider<Item>,
+                       viewProvider: ItemViewProvider,
+                       completion: (() -> Void)?) async {
+        if let (itemsToProcess, animateItems, itemCompletion) = await queue.processNext(updatedItems, animated: animated, completion: completion) {
+            await calculator.processItems(itemsToProcess,
+                                          animated: animateItems,
+                                          on: queue,
+                                          itemProvider: itemProvider,
+                                          viewProvider: viewProvider,
+                                          completion: itemCompletion)
         }
     }
 }
 
 // MARK: Update
 
-private extension ItemDataCalculatorActor {
+private final class ItemDataCalculatorActor<Item: UniquelyIdentifiable> {
 
     func processItems(_ updatedItems: [Item],
                       animated: Bool,
+                      on queue: ItemQueue<Item>,
                       itemProvider: some ItemDataActorProvider<Item>,
                       viewProvider: ItemViewProvider,
                       completion: (() -> Void)?) async {
@@ -38,7 +42,7 @@ private extension ItemDataCalculatorActor {
         let processCompletion: @MainActor () -> Void = { [weak self] in
             completion?()
             Task {
-                await self?.processNext(itemProvider: itemProvider, viewProvider: viewProvider)
+                await self?.processNext(on: queue, itemProvider: itemProvider, viewProvider: viewProvider)
             }
         }
 
@@ -98,11 +102,13 @@ private extension ItemDataCalculatorActor {
         return (delta: delta, deletedItems: deletedItems)
     }
 
-    func processNext(itemProvider: some ItemDataActorProvider<Item>,
+    func processNext(on queue: ItemQueue<Item>,
+                     itemProvider: some ItemDataActorProvider<Item>,
                      viewProvider: ItemViewProvider) async {
-        if let (itemsToProcess, animateItems, completion) = await itemProcessingQueue.processNext() {
+        if let (itemsToProcess, animateItems, completion) = await queue.processNext() {
             await processItems(itemsToProcess,
                                animated: animateItems,
+                               on: queue,
                                itemProvider: itemProvider,
                                viewProvider: viewProvider,
                                completion: completion)
@@ -112,7 +118,7 @@ private extension ItemDataCalculatorActor {
 
 // MARK: - Processing Queue
 
-private final actor ItemProcessingQueue<Item> {
+private final actor ItemQueue<Item> {
 
     private var currentlyProcessing: [Item]?
 

@@ -19,7 +19,7 @@ public final actor CollectionDataActor<Item: UniquelyIdentifiable>: ItemViewProv
     private(set) weak var view: DeltaUpdatableViewAsync?
 
     // controllers
-    private let dataCalculator = ItemDataCalculatorActor<Item>()
+    private let processor = ItemDataProcessor<Item>()
 
     // init
     @MainActor
@@ -65,11 +65,11 @@ public extension CollectionDataActor {
 public extension CollectionDataActor {
 
     func update(_ updatedItems: [Item], animated: Bool = true, completion: (() -> Void)? = nil) async {
-        await dataCalculator.update(updatedItems,
-                                    animated: animated,
-                                    itemProvider: self,
-                                    viewProvider: self,
-                                    completion: completion)
+        await processor.enqueueUpdate(updatedItems,
+                                      animated: animated,
+                                      itemProvider: self,
+                                      viewProvider: self,
+                                      completion: completion)
     }
 }
 
