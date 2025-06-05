@@ -72,7 +72,7 @@ private extension ItemDataCalculatorActor {
             return
         }
 
-        await view.performAnimationsAsync(section: 0, delta: delta, updateData: updateData, completion: completion)
+        await view.performAnimationsAsync(section: 0, delta: delta, updateData: updateData, completion: calculationCompletion)
     }
 
     func calculateDelta(_ updatedItems: [Item],
