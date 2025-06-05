@@ -66,7 +66,7 @@ public extension CollectionDataActor {
 
     func update(_ updatedItems: [Item], animated: Bool = true, completion: (() -> Void)? = nil) async {
         await dataCalculator.update(updatedItems,
-                                    animated: true,
+                                    animated: animated,
                                     itemProvider: self,
                                     viewProvider: self,
                                     completion: completion)

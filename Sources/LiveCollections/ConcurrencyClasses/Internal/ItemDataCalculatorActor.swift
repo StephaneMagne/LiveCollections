@@ -54,9 +54,18 @@ private extension ItemDataCalculatorActor {
             }
         }
 
+        guard animated else {
+            await updateData()
+            await MainActor.run {
+                view.reloadData()
+                completion?()
+            }
+            return
+        }
+
         let (delta, deletedItems) = await calculateDelta(updatedItems, itemProvider: itemProvider)
 
-        let calculationCompletion: () -> Void = { [weak self] in
+        let calculationCompletion: @MainActor () -> Void = { [weak self] in
             completion?()
             if deletedItems.isEmpty == false {
                 // send deleted items here
@@ -68,7 +77,7 @@ private extension ItemDataCalculatorActor {
 
         guard delta.hasChanges else {
             await updateData()
-            calculationCompletion()
+            await calculationCompletion()
             return
         }
 
