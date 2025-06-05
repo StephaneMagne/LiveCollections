@@ -8,7 +8,7 @@
 
 import UIKit
 
-public final actor CollectionDataActor<Item: UniquelyIdentifiable> {
+public final actor CollectionDataActor<Item: UniquelyIdentifiable>: ItemViewProvider {
 
     // data
     @MainActor
@@ -16,14 +16,14 @@ public final actor CollectionDataActor<Item: UniquelyIdentifiable> {
 
     // view
     @MainActor
-    private weak var view: DeltaUpdatableView?
+    private(set) weak var view: DeltaUpdatableViewAsync?
 
     // controllers
-    private let dataCalculator = ItemDataCalculator<Item>()
+    private let dataCalculator = ItemDataCalculatorActor<Item>()
 
     // init
     @MainActor
-    public init(items: [Item] = [], view: DeltaUpdatableView? = nil) {
+    public init(items: [Item] = [], view: DeltaUpdatableViewAsync? = nil) {
         self.items = items
 
         if let view {
@@ -53,7 +53,7 @@ public extension CollectionDataActor {
 public extension CollectionDataActor {
 
     @MainActor
-    func setView(_ view: DeltaUpdatableView) {
+    func setView(_ view: DeltaUpdatableViewAsync) {
         guard view !== self.view else { return }
         self.view = view
         reloadData()
@@ -64,28 +64,18 @@ public extension CollectionDataActor {
 
 public extension CollectionDataActor {
 
-    func update(_ updatedItems: [Item], animated: Bool = true) async {
-        if animated {
-            await updateAnimated(updatedItems)
-        } else {
-            await updateNonAnimated(updatedItems)
-        }
+    func update(_ updatedItems: [Item], animated: Bool = true, completion: (() -> Void)? = nil) async {
+        await dataCalculator.update(updatedItems,
+                                    animated: true,
+                                    itemProvider: self,
+                                    viewProvider: self,
+                                    completion: completion)
     }
 }
 
 // MARK: - Update Private
 
 private extension CollectionDataActor {
-
-    func updateAnimated(_ updatedItems: [Item]) async {
-        
-    }
-
-    @MainActor
-    func updateNonAnimated(_ updatedItems: [Item]) async {
-        self.items = updatedItems
-        reloadData()
-    }
 
     @MainActor
     func reloadData() {
