@@ -35,8 +35,16 @@ private extension ItemDataCalculatorActor {
                       viewProvider: ItemViewProvider,
                       completion: (() -> Void)?) async {
 
+        let processCompletion: @MainActor () -> Void = { [weak self] in
+            completion?()
+            Task {
+                await self?.processNext(itemProvider: itemProvider, viewProvider: viewProvider)
+            }
+        }
+
         guard let view = await viewProvider.view else {
             await itemProvider.setItems(updatedItems)
+            await processCompletion()
             return
         }
 
@@ -58,21 +66,18 @@ private extension ItemDataCalculatorActor {
             await updateData()
             await MainActor.run {
                 view.reloadData()
-                completion?()
+                processCompletion()
             }
             return
         }
 
         let (delta, deletedItems) = await calculateDelta(updatedItems, itemProvider: itemProvider)
 
-        let calculationCompletion: @MainActor () -> Void = { [weak self] in
-            completion?()
+        let calculationCompletion: @MainActor () -> Void = {
             if deletedItems.isEmpty == false {
                 // send deleted items here
             }
-            Task {
-                await self?.processNext(itemProvider: itemProvider, viewProvider: viewProvider)
-            }
+            processCompletion()
         }
 
         guard delta.hasChanges else {
