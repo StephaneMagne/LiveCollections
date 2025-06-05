@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2648515B2DF20D9C00623B30 /* CollectionDataActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2648515A2DF20D9700623B30 /* CollectionDataActor.swift */; };
+		2648515D2DF2137F00623B30 /* ItemDataCalculatorActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2648515C2DF2137A00623B30 /* ItemDataCalculatorActor.swift */; };
+		2648515F2DF2160200623B30 /* ItemProviderProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2648515E2DF215EC00623B30 /* ItemProviderProtocols.swift */; };
+		264851622DF22BB500623B30 /* UIKit+AsyncDeltaUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264851612DF22BB100623B30 /* UIKit+AsyncDeltaUpdates.swift */; };
 		F45256582152D76700F3B2DD /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F45256572152D76600F3B2DD /* LICENSE */; };
 		F454C235212A545D0018DC6E /* AnyUniquelyIdentifiableDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F454C234212A545D0018DC6E /* AnyUniquelyIdentifiableDataFactory.swift */; };
 		F47AE7292140F4DA00FE7360 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47AE7282140F4DA00FE7360 /* PerformanceTests.swift */; };
@@ -58,6 +62,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2648515A2DF20D9700623B30 /* CollectionDataActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDataActor.swift; sourceTree = "<group>"; };
+		2648515C2DF2137A00623B30 /* ItemDataCalculatorActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDataCalculatorActor.swift; sourceTree = "<group>"; };
+		2648515E2DF215EC00623B30 /* ItemProviderProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProviderProtocols.swift; sourceTree = "<group>"; };
+		264851612DF22BB100623B30 /* UIKit+AsyncDeltaUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+AsyncDeltaUpdates.swift"; sourceTree = "<group>"; };
 		F45256572152D76600F3B2DD /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F454C234212A545D0018DC6E /* AnyUniquelyIdentifiableDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUniquelyIdentifiableDataFactory.swift; sourceTree = "<group>"; };
 		F47AE7282140F4DA00FE7360 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
@@ -120,6 +128,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		264851572DF20D6F00623B30 /* ConcurrencyClasses */ = {
+			isa = PBXGroup;
+			children = (
+				264851582DF20D8100623B30 /* Public */,
+				264851592DF20D8600623B30 /* Internal */,
+			);
+			path = ConcurrencyClasses;
+			sourceTree = "<group>";
+		};
+		264851582DF20D8100623B30 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				2648515A2DF20D9700623B30 /* CollectionDataActor.swift */,
+				264851602DF22BA600623B30 /* UIKit+AsyncDeltaUpdates */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		264851592DF20D8600623B30 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				2648515E2DF215EC00623B30 /* ItemProviderProtocols.swift */,
+				2648515C2DF2137A00623B30 /* ItemDataCalculatorActor.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		264851602DF22BA600623B30 /* UIKit+AsyncDeltaUpdates */ = {
+			isa = PBXGroup;
+			children = (
+				264851612DF22BB100623B30 /* UIKit+AsyncDeltaUpdates.swift */,
+			);
+			path = "UIKit+AsyncDeltaUpdates";
+			sourceTree = "<group>";
+		};
 		F4847DF92137C89400859EFF /* ItemDeltaTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +217,7 @@
 				F4D772E320FBC4BE002F1C43 /* Info.plist */,
 				F4D772E220FBC4BE002F1C43 /* LiveCollections.h */,
 				F4D772F920FBC4E7002F1C43 /* Classes */,
+				264851572DF20D6F00623B30 /* ConcurrencyClasses */,
 			);
 			name = LiveCollections;
 			path = Sources/LiveCollections;
@@ -436,13 +480,16 @@
 				F4D7731C20FBC4E7002F1C43 /* SectionUpdate.swift in Sources */,
 				F4F205532172CB7300C211AB /* DispatchQueue+Extensions.swift in Sources */,
 				F47AE72D214103A300FE7360 /* DeltaCalculator.swift in Sources */,
+				264851622DF22BB500623B30 /* UIKit+AsyncDeltaUpdates.swift in Sources */,
 				F4D7731720FBC4E7002F1C43 /* DataProviderProtocols.swift in Sources */,
 				F4D7732920FBC4E7002F1C43 /* UniquelyIdentifiableProtocols.swift in Sources */,
+				2648515D2DF2137F00623B30 /* ItemDataCalculatorActor.swift in Sources */,
 				F4F2054D21728AED00C211AB /* MultiSectionCustomAnimationStyleTableView.swift in Sources */,
 				F4D7732020FBC4E7002F1C43 /* UIKit+SectionDeltaUpdates.swift in Sources */,
 				F4B9013F2133A2A400E3B51C /* AnyDeltaUpdatableViewDelegate.swift in Sources */,
 				F4F59E6A214C34AA00B4AB19 /* CollectionDataReusableViewVerificationDelegate.swift in Sources */,
 				F4AF3BC32145B2C500917DF5 /* AnyCollectionDataDeletionNotificationDelegate.swift in Sources */,
+				2648515F2DF2160200623B30 /* ItemProviderProtocols.swift in Sources */,
 				F4F205432172793200C211AB /* SingleSectionCustomAnimationStyleTableView.swift in Sources */,
 				F47AE72B2140F98100FE7360 /* ItemDataCalculator.swift in Sources */,
 				F47EFA922161638A00E53750 /* BaseTypes+UniquelyIdentifiable.swift in Sources */,
@@ -452,6 +499,7 @@
 				F4D7732720FBC4E7002F1C43 /* DeltaVisualUpdateProtocols.swift in Sources */,
 				F4F205512172C05B00C211AB /* TableViewSingleSectionAnimationProviding.swift in Sources */,
 				F4D7732520FBC4E7002F1C43 /* CollectionDataProtocols.swift in Sources */,
+				2648515B2DF20D9C00623B30 /* CollectionDataActor.swift in Sources */,
 				F4D7732120FBC4E7002F1C43 /* CollectionSectionData.swift in Sources */,
 				F4D7732220FBC4E7002F1C43 /* CollectionDataDelegate.swift in Sources */,
 				F4F20540217278E800C211AB /* TableViewRowAnimationProviding.swift in Sources */,
@@ -622,6 +670,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -649,6 +698,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -238,12 +238,12 @@ private struct Mapping {
 
 // MARK: IndexPathsToAnimate
 
-private struct EntireViewSectionUpdate {
+struct EntireViewSectionUpdate {
     let sectionUpdate: SectionUpdate
     let indexPathsToAnimate: IndexPathsToAnimate
 }
 
-private struct IndexPathsToAnimate {
+struct IndexPathsToAnimate {
 
     let deletedIndexPaths: [IndexPath]
     let insertedIndexPaths: [IndexPath]
@@ -264,7 +264,7 @@ private struct IndexPathsToAnimate {
     }
 }
 
-private extension IndexPathsToAnimate {
+extension IndexPathsToAnimate {
     
     static func build(for sectionUpdate: SectionUpdate) -> IndexPathsToAnimate {
         

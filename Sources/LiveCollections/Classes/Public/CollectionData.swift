@@ -289,20 +289,20 @@ public extension NonUniqueCollectionData where DataType.RawType: NonUniquelyIden
 public extension CollectionData {
     
     func setTableView(_ tableView: UITableView,
-                             rowAnimations: TableViewAnimationModel,
-                             sectionReloadAnimation: UITableView.RowAnimation = .none) {
-        
+                      rowAnimations: TableViewAnimationModel,
+                      sectionReloadAnimation: UITableView.RowAnimation = .none) {
+
         let sectionAnimations = TableViewAnimationModel(deleteAnimation: TableViewSectionConstants.defaultDeleteAnimation,
                                                         insertAnimation: TableViewSectionConstants.defaultInsertAnimation,
                                                         reloadAnimation: sectionReloadAnimation)
-        
+
         self._customTableView = DispatchQueue.main.safeSync {
             return SingleSectionCustomAnimationStyleTableView(tableView: tableView,
                                                               section: section,
                                                               rowAnimations: rowAnimations,
                                                               sectionAnimations: sectionAnimations)
         }
-        
+
         self.view = _customTableView
     }
 }
