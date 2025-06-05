@@ -26,6 +26,9 @@ extension UICollectionView: DeltaUpdatableViewAsync {
             }
             return
         }
+
+        let sectionUpdate = SectionUpdate(section: section, delta: delta, update: updateData, completion: completion)
+        performAnimationsAsync(for: sectionUpdate)
     }
 
     public func performAnimationsAsync(for sectionUpdate: SectionUpdate) {
